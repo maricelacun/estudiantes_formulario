@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ficha Estudiantil Interactiva v2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        #student-card-preview div span {
+            transition: all 0.3s ease-in-out;
+        }
+        label span.required {
+            color: red;
+        }
+        /* Simple message styling */
+        .feedback-message {
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none; /* Hidden by default */
+        }
+        .feedback-success {
+            background-color: #d1fae5; /* Green-100 */
+            color: #065f46; /* Green-800 */
+        }
+        .feedback-error {
+             background-color: #fee2e2; /* Red-100 */
+            color: #991b1b; /* Red-800 */
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-yellow-200 via-white to-blue-300 min-h-screen p-4 md:p-8">
+  <div class="container mx-auto max-w-6xl bg-white rounded-xl shadow-2xl overflow-hidden border-4 border-blue-500">
+      <div class="p-6 md:p-8">
+      <div class="text-center mb-8">
+        <div class="flex items-center">
+            <img src="sello.jpg" alt="sello" class="mr-4 w-36">
+  
+        </div>
+
+
+        <h1 class="text-2xl md:text-3xl font-bold text-indigo-800">Unidad Educativa Dr. Camilo Gallegos Domínguez</h1>
+        <p class="text-lg md:text-xl text-gray-700 mt-2">Curso: Tercero Informática "B"</p>
+        <p class="text-md text-gray-600">Tutora: Mgs. Maricela Cun Rueda</p>
+      </div>  
+      
+      <div class="md:flex">
+            <div class="w-11/12 max-w-screen-lg p-6 md:p-8">
+                <h1 class="text-3xl font-bold text-indigo-700 mb-6">Registro Estudiantil</h1>
+                <form id="student-form" class="space-y-6">
+
+                    <fieldset class="border border-gray-300 p-4 rounded-lg">
+                        <legend class="text-lg font-semibold text-gray-700 px-2">Información del Estudiante</legend>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div>
+                                <label for="student-name" class="block text-sm font-medium text-gray-700">Nombres Completos <span class="required">*</span></label>
+                                <input type="text" id="student-name" name="student-name" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Ej: Ana María López Pérez">
+                            </div>
+                            <div>
+                                <label for="student-id" class="block text-sm font-medium text-gray-700">Número de Cédula <span class="required">*</span></label>
+                                <input type="text" id="student-id" name="student-id" required pattern="\d{10}" title="Ingrese 10 dígitos" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Ej: 1234567890">
+                            </div>
+                            <div>
+                                <label for="birth-place" class="block text-sm font-medium text-gray-700">Lugar de Nacimiento</label>
+                                <input type="text" id="birth-place" name="birth-place" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Ej: Quito, Pichincha">
+                            </div>
+                            <div>
+                                <label for="birth-date" class="block text-sm font-medium text-gray-700">Fecha de Nacimiento <span class="required">*</span></label>
+                                <input type="date" id="birth-date" name="birth-date" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            </div>
+                             <div>
+                                <label for="student-phone" class="block text-sm font-medium text-gray-700">Celular del Estudiante</label>
+                                <input type="tel" id="student-phone" name="student-phone" pattern="[0-9]{10}" title="Ingrese 10 dígitos" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Ej: 0991234567">
+                            </div>
+                             <div>
+                                <label for="address" class="block text-sm font-medium text-gray-700">Dirección Domiciliaria <span class="required">*</span></label>
+                                <input type="text" id="address" name="address" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Ej: Av. Principal 123 y Calle Secundaria">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="border border-gray-300 p-4 rounded-lg">
+                        <legend class="text-lg font-semibold text-gray-700 px-2">Información del Representante</legend>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+                            <div>
+                                <label for="representative-name" class="block text-sm font-medium text-gray-700">Nombres Completos <span class="required">*</span></label>
+                                <input type="text" id="representative-name" name="representative-name" required class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Ej: Carlos Alberto Vera Ruiz">
+                            </div>
+                            <div>
+                                <label for="representative-id" class="block text-sm font-medium text-gray-700">Número de Cédula <span class="required">*</span></label>
+                                <input type="text" id="representative-id" name="representative-id" required pattern="\d{10}" title="Ingrese 10 dígitos" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Ej: 0987654321">
+                            </div>
+                             <div>
+                                <label for="representative-phone" class="block text-sm font-medium text-gray-700">Celular del Representante <span class="required">*</span></label>
+                                <input type="tel" id="representative-phone" name="representative-phone" required pattern="[0-9]{10}" title="Ingrese 10 dígitos" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Ej: 0981234567">
+                            </div>
+                            <div>
+                                <label for="representative-occupation" class="block text-sm font-medium text-gray-700">Ocupación Laboral</label>
+                                <input type="text" id="representative-occupation" name="representative-occupation" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Ej: Ingeniero Civil">
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="border border-gray-300 p-4 rounded-lg">
+                         <legend class="text-lg font-semibold text-gray-700 px-2">Información Médica</legend>
+                         <div class="mt-2">
+                            <label for="medical-info" class="block text-sm font-medium text-gray-700">Enfermedad Crónica o Alergias</label>
+                            <textarea id="medical-info" name="medical-info" rows="3" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Describa si el estudiante padece alguna enfermedad crónica o tiene alergias conocidas (Ej: Asma, alergia al maní)"></textarea>
+                        </div>
+                    </fieldset>
+
+                     <div id="feedback-area" class="feedback-message"></div>
+
+                    <div class="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-3 pt-4">
+                         <button type="button" id="clear-form" class="inline-flex justify-center py-2 px-4 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                               <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                             </svg>
+                            Limpiar
+                         </button>
+                         <button type="button" id="download-csv" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition duration-150 ease-in-out">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                            Descargar Todo (CSV)
+                         </button>
+                         <button type="button" id="download-pdf" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition duration-150 ease-in-out">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                            Descargar Todo (PDF)
+                         </button>
+                         <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-150 ease-in-out">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                               <path d="M7.707 10.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V6a1 1 0 10-2 0v5.586L7.707 10.293zM3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" />
+                             </svg>
+                            Guardar Registro
+                         </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="md:w-1/2 bg-gradient-to-br from-yellow-400 to-blue-600 p-6 md:p-8 text-white rounded-r-xl flex flex-col justify-center">
+                <h2 class="text-2xl font-bold mb-6 text-center">VISTA PREVIA - Ficha</h2>
+                <div id="student-card-preview" class="bg-white/20 backdrop-blur-sm p-6 rounded-lg shadow-lg space-y-3 text-sm text-black">
+                    <div><strong>Estudiante:</strong> <span id="preview-student-name" class="font-light block truncate">N/A</span></div>
+                    <div><strong>Cédula Est.:</strong> <span id="preview-student-id" class="font-light block truncate">N/A</span></div>
+                    <div><strong>Fec. Nacimiento:</strong> <span id="preview-birth-date" class="font-light block truncate">N/A</span></div>
+                    <div><strong>Dirección:</strong> <span id="preview-address" class="font-light block truncate">N/A</span></div>
+                    <hr class="border-white/30 my-3">
+                    <div><strong>Representante:</strong> <span id="preview-representative-name" class="font-light block truncate">N/A</span></div>
+                    <div><strong>Cédula Rep.:</strong> <span id="preview-representative-id" class="font-light block truncate">N/A</span></div>
+                    <div><strong>Celular Rep.:</strong> <span id="preview-representative-phone" class="font-light block truncate">N/A</span></div>
+                    <hr class="border-white/30 my-3">
+                     <div><strong>Info. Médica:</strong> <span id="preview-medical-info" class="font-light block break-words max-h-20 overflow-y-auto">N/A</span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Ensure jsPDF is loaded before using it
+        const { jsPDF } = window.jspdf;
+
+        // --- DOM Elements ---
+        const form = document.getElementById('student-form');
+        const feedbackArea = document.getElementById('feedback-area');
+        const clearFormButton = document.getElementById('clear-form');
+        const downloadCsvButton = document.getElementById('download-csv');
+        const downloadPdfButton = document.getElementById('download-pdf');
+
+        const previewElements = {
+            studentName: document.getElementById('preview-student-name'),
+            studentId: document.getElementById('preview-student-id'),
+            birthDate: document.getElementById('preview-birth-date'),
+            address: document.getElementById('preview-address'),
+            representativeName: document.getElementById('preview-representative-name'),
+            representativeId: document.getElementById('preview-representative-id'),
+            representativePhone: document.getElementById('preview-representative-phone'),
+            medicalInfo: document.getElementById('preview-medical-info'),
+        };
+        const inputElements = {
+            studentName: document.getElementById('student-name'),
+            studentId: document.getElementById('student-id'),
+            birthDate: document.getElementById('birth-date'),
+            address: document.getElementById('address'),
+            representativeName: document.getElementById('representative-name'),
+            representativeId: document.getElementById('representative-id'),
+            representativePhone: document.getElementById('representative-phone'),
+            medicalInfo: document.getElementById('medical-info'),
+            birthPlace: document.getElementById('birth-place'),
+            studentPhone: document.getElementById('student-phone'),
+            representativeOccupation: document.getElementById('representative-occupation'),
+        };
+
+        // --- Constants ---
+        const LOCAL_STORAGE_KEY = 'studentRecords';
+        const HEADERS_MAP = { // For consistent naming in exports
+            'student-name': 'Nombre Estudiante',
+            'student-id': 'Cédula Estudiante',
+            'birth-place': 'Lugar Nacimiento',
+            'birth-date': 'Fecha Nacimiento',
+            'student-phone': 'Celular Estudiante',
+            'address': 'Dirección',
+            'representative-name': 'Nombre Representante',
+            'representative-id': 'Cédula Representante',
+            'representative-phone': 'Celular Representante',
+            'representative-occupation': 'Ocupación Representante',
+            'medical-info': 'Información Médica'
+        };
+
+        // --- Utility Functions ---
+
+        /**
+         * Shows a feedback message to the user.
+         * @param {string} message - The message to display.
+         * @param {boolean} isError - True for error styling, false for success.
+         */
+        function showFeedback(message, isError = false) {
+            feedbackArea.textContent = message;
+            feedbackArea.className = `feedback-message ${isError ? 'feedback-error' : 'feedback-success'}`;
+            feedbackArea.style.display = 'block';
+            // Hide the message after 5 seconds
+            setTimeout(() => {
+                feedbackArea.style.display = 'none';
+            }, 5000);
+        }
+
+        /**
+         * Retrieves all student records from LocalStorage.
+         * @returns {Array<Object>} An array of student data objects.
+         */
+        function getAllStudentsFromLocalStorage() {
+            try {
+                const storedData = localStorage.getItem(LOCAL_STORAGE_KEY);
+                return storedData ? JSON.parse(storedData) : [];
+            } catch (error) {
+                console.error("Error reading from LocalStorage:", error);
+                showFeedback("Error al leer los datos guardados.", true);
+                return [];
+            }
+        }
+
+        /**
+         * Saves a student record to LocalStorage.
+         * @param {Object} studentData - The student data object to save.
+         */
+        function saveStudentToLocalStorage(studentData) {
+            try {
+                const allStudents = getAllStudentsFromLocalStorage();
+                allStudents.push(studentData);
+                localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(allStudents));
+                showFeedback(`Estudiante "${studentData[HEADERS_MAP['student-name']]}" guardado localmente.`);
+            } catch (error) {
+                console.error("Error saving to LocalStorage:", error);
+                showFeedback("Error al guardar el estudiante. ¿Almacenamiento lleno?", true);
+            }
+        }
+
+        /**
+         * Gets the current form data as an object with readable keys.
+         * @returns {Object} The form data.
+         */
+        function getFormData() {
+            const formData = new FormData(form);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                const readableKey = HEADERS_MAP[key] || key;
+                data[readableKey] = value;
+            }
+            return data;
+        }
+
+        /**
+         * Updates the preview card based on form input.
+         */
+        function updatePreview() {
+            previewElements.studentName.textContent = inputElements.studentName.value || 'N/A';
+            previewElements.studentId.textContent = inputElements.studentId.value || 'N/A';
+            // Format date nicely for preview
+            try {
+                previewElements.birthDate.textContent = inputElements.birthDate.value
+                    ? new Date(inputElements.birthDate.value + 'T00:00:00').toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })
+                    : 'N/A';
+            } catch (e) {
+                 previewElements.birthDate.textContent = inputElements.birthDate.value || 'N/A'; // Fallback
+            }
+            previewElements.address.textContent = inputElements.address.value || 'N/A';
+            previewElements.representativeName.textContent = inputElements.representativeName.value || 'N/A';
+            previewElements.representativeId.textContent = inputElements.representativeId.value || 'N/A';
+            previewElements.representativePhone.textContent = inputElements.representativePhone.value || 'N/A';
+            previewElements.medicalInfo.textContent = inputElements.medicalInfo.value || 'N/A';
+        }
+
+        /**
+         * Clears the form fields and resets the preview.
+         */
+        function clearForm() {
+            form.reset();
+            updatePreview();
+            showFeedback("Formulario limpiado.", false);
+        }
+
+        // --- Event Listeners ---
+
+        // Update preview on input
+        Object.values(inputElements).forEach(input => {
+            if (input) {
+                 input.addEventListener('input', updatePreview);
+            }
+        });
+
+        // Handle form submission (Save to LocalStorage)
+        form.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent default page reload
+            const currentStudentData = getFormData();
+            saveStudentToLocalStorage(currentStudentData);
+            clearForm(); // Clear form after successful save
+        });
+
+        // Handle Clear Form button click
+        clearFormButton.addEventListener('click', clearForm);
+
+        // --- Download All Logic ---
+
+        // Download All as CSV
+        downloadCsvButton.addEventListener('click', () => {
+            const allStudents = getAllStudentsFromLocalStorage();
+            if (allStudents.length === 0) {
+                showFeedback("No hay estudiantes guardados para descargar.", true);
+                return;
+            }
+
+            // Use the keys from the first student as headers (assuming consistency)
+            const headers = Object.keys(allStudents[0]);
+            // Escape commas and quotes in values
+            const csvRows = allStudents.map(student =>
+                headers.map(header => `"${(student[header] || '').toString().replace(/"/g, '""')}"`).join(",")
+            );
+
+            const csvContent = "data:text/csv;charset=utf-8,"
+                + headers.join(",") + "\n"
+                + csvRows.join("\n");
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "todos_los_estudiantes.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showFeedback("Descarga CSV iniciada.");
+        });
+
+        // Download All as PDF
+        downloadPdfButton.addEventListener('click', () => {
+            const allStudents = getAllStudentsFromLocalStorage();
+            if (allStudents.length === 0) {
+                showFeedback("No hay estudiantes guardados para descargar.", true);
+                return;
+            }
+
+            try {
+                const doc = new jsPDF({ orientation: 'landscape' }); // Use landscape for potentially many columns
+                const margin = 10;
+                const lineHeight = 7;
+                let currentY = margin;
+
+                // Title
+                doc.setFontSize(16);
+                doc.setFont(undefined, 'bold');
+                doc.text("Lista de Todos los Estudiantes", doc.internal.pageSize.getWidth() / 2, currentY, { align: 'center' });
+                currentY += lineHeight * 2;
+
+                // Prepare data for AutoTable
+                const headers = Object.keys(allStudents[0]); // Use keys from first student
+                const body = allStudents.map(student => headers.map(header => student[header] || 'N/A'));
+
+                doc.autoTable({
+                    startY: currentY,
+                    head: [headers], // AutoTable expects head as an array of arrays
+                    body: body,
+                    theme: 'grid',
+                    headStyles: { fillColor: [74, 85, 104] }, // Indigo-like color
+                    styles: { fontSize: 8, cellPadding: 1.5, overflow: 'linebreak' }, // Smaller font for more data
+                    columnStyles: { /* Adjust specific column widths if needed */ },
+                    margin: { left: margin, right: margin }
+                });
+
+                doc.save("todos_los_estudiantes.pdf");
+                showFeedback("Descarga PDF iniciada.");
+
+            } catch (error) {
+                console.error("Error generating PDF:", error);
+                showFeedback("Hubo un error al generar el PDF.", true);
+            }
+        });
+
+        // --- Initial Setup ---
+        updatePreview(); // Initial preview update
+
+    </script>
+</body>
+</html>

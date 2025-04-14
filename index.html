@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><center>Unidad Educativa "Dr. Camilo Gallegos Domínguez" - Tercero Informática B</center></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        // Define la fuente Inter
+                        sans: ['graduate', 'sans-serif'],
+                    },
+                    colors: {
+                        // Puedes definir colores personalizados si lo deseas
+                        brand: {
+                            yellow: '#FFDA00', // Ejemplo de amarillo
+                            blue: '#005BBB',   // Ejemplo de azul
+                        }
+                    },
+                    backgroundImage: {
+                        // Define el gradiente personalizado
+                        'gradient-yellow-blue': 'linear-gradient(to bottom right, #FFDA00, #FBBF24, #60A5FA, #3B82F6)',
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos adicionales si son necesarios */
+        body {
+            font-family: 'Inter', sans-serif; /* Aplica la fuente Inter al cuerpo */
+        }
+        /* Asegura que el gradiente cubra toda la altura */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        /* Estilo para el fondo con gradiente */
+        .gradient-background {
+             background-image: linear-gradient(to bottom right, #fef08a, #facc15, #93c5fd, #3b82f6); /* Gradiente de amarillo claro a azul */
+             background-attachment: fixed; /* Fija el fondo para que no se desplace */
+             min-height: 100vh; /* Asegura que cubra al menos toda la altura de la ventana */
+        }
+        /* Estilo para el texto con sombra para mejorar legibilidad sobre gradiente */
+        .text-shadow {
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+         /* Transición suave para el menú móvil */
+        .mobile-menu {
+            transition: max-height 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="gradient-background text-gray-900">
+
+    <div class="container mx-auto px-4 py-8">
+
+        <header class="mb-12 text-white  flex flex-col md:flex-row items-center justify-center md:justify-start">
+            <img src=sello.jpg alt="Sello de la Unidad Educativa Dr. Camilo Gallegos Domínguez"
+                 class="h-20 w-20 md:h-24 md:w-24 mb-4 md:mb-0 md:mr-6 rounded-full shadow-md object-cover flex-shrink-0" onerror="this.onerror=null; this.src='https://placehold.co/100x100/EBF4FF/3B82F6?text=Sello';"> <div class="text-center md:text-left"> <h1 class="text-center text-3xl md:text-4xl font-bold mb-2 text-shadow">UNIDAD EDUCATIVA "DR. CAMILO GALLEGOS DOMÍNGUEZ"</h1>
+                <h2 class="text-center text-xl md:text-2xl font-semibold mb-1 text-shadow">TERCERO INFORMÁTICA "B"</h2>
+                <p class="text-center text-lg md:text-xl font-medium text-shadow">Tutora: Mgs. Maricela Cun Rueda</p>
+            </div>
+        </header>
+
+        <nav class="bg-white bg-opacity-80 backdrop-blur-sm rounded-lg shadow-lg mb-12 sticky top-4 z-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                           
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#asistencia" class="text-gray-700 hover:bg-blue-500 hover:text-white px-3 py-2 rounded-md text-xl font-medium transition duration-150 ease-in-out">ASISTENCIA</a>
+                            <a href="#datos" class="text-gray-700 hover:bg-blue-500 hover:text-white px-3 py-2 rounded-md text-xl font-medium transition duration-150 ease-in-out">DATOS DEL ESTUDIANTE</a>
+                            <a href="#calificaciones" class="text-gray-700 hover:bg-blue-500 hover:text-white px-3 py-2 rounded-md text-xl font-medium transition duration-150 ease-in-out">CALIFICACIONES</a>
+
+                        </div>
+                    </div>
+                    <div class="-mr-2 flex md:hidden">
+                        <button id="mobile-menu-button" type="button" class="bg-gray-200 inline-flex items-center justify-center p-2 rounded-md text-gray-600 hover:text-white hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-white transition duration-150 ease-in-out" aria-controls="mobile-menu" aria-expanded="false">
+                            <span class="sr-only">Abrir menú principal</span>
+                            <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                            <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="md:hidden mobile-menu overflow-hidden max-h-0" id="mobile-menu">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#asistencia" class="text-gray-700 hover:bg-blue-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out">Asistencia</a>
+                    <a href="#datos" class="text-gray-700 hover:bg-blue-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out">Datos de Estudiantes</a>
+                    <a href="#calificaciones" class="text-gray-700 hover:bg-blue-500 hover:text-white block px-3 py-2 rounded-md text-base font-medium transition duration-150 ease-in-out">Calificaciones</a>
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            <section id="asistencia" class="mb-16 p-8 bg-white bg-opacity-70 backdrop-blur-sm rounded-xl shadow-lg">
+                <h3 class="text-2xl font-semibold mb-4 text-blue-700">Registro de Asistencia</h3>
+                <p class="text-gray-600">Aquí se mostrará la información relacionada con la asistencia de los estudiantes. Podría incluir un formulario para registrar la asistencia diaria, un resumen de asistencias por estudiante, o gráficos de tendencias.</p>
+                <div class="mt-4 h-40 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <span class="text-gray-500">Contenido de Asistencia Próximamente</span>
+                </div>
+            </section>
+
+            <section id="datos" class="mb-16 p-8 bg-white bg-opacity-70 backdrop-blur-sm rounded-xl shadow-lg">
+                <h3 class="text-2xl font-semibold mb-4 text-yellow-600">Datos de los Estudiantes</h3>
+                <p class="text-gray-600">Esta sección contendrá la información relevante de cada estudiante del curso. Se podría implementar una tabla de búsqueda, fichas individuales o listados.</p>
+                 <div class="mt-4 h-40 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <span class="text-gray-500">Información de Estudiantes Próximamente</span>
+                </div>
+            </section>
+
+            <section id="calificaciones" class="mb-16 p-8 bg-white bg-opacity-70 backdrop-blur-sm rounded-xl shadow-lg">
+                <h3 class="text-2xl font-semibold mb-4 text-blue-700">Calificaciones</h3>
+                <p class="text-gray-600">Espacio dedicado a la visualización de las calificaciones de los estudiantes. Podría incluir tablas de notas por parcial, promedios, o gráficos de rendimiento.</p>
+                 <div class="mt-4 h-40 bg-gray-200 rounded-lg flex items-center justify-center">
+                    <span class="text-gray-500">Sistema de Calificaciones Próximamente</span>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-12 py-4 border-t border-white border-opacity-30">
+            <p class="text-white text-opacity-80 text-sm text-shadow">&copy; 2025 Unidad Educativa "Dr. Camilo Gallegos Domínguez" - Todos los derechos reservados.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const menuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const hamburgerIcon = menuButton.querySelector('svg:first-child');
+        const closeIcon = menuButton.querySelector('svg:last-child');
+
+        menuButton.addEventListener('click', () => {
+            const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+            menuButton.setAttribute('aria-expanded', !isExpanded);
+            // Alterna la visibilidad de los iconos
+            hamburgerIcon.classList.toggle('hidden');
+            closeIcon.classList.toggle('hidden');
+            // Alterna la altura máxima para la animación
+            if (!isExpanded) {
+                mobileMenu.style.maxHeight = mobileMenu.scrollHeight + "px"; // Expande
+                 mobileMenu.classList.add('py-2'); // Añade padding al expandir
+            } else {
+                mobileMenu.style.maxHeight = "0"; // Contrae
+                 mobileMenu.classList.remove('py-2'); // Quita padding al contraer
+            }
+        });
+
+        // Cierra el menú móvil si se hace clic en un enlace
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                 menuButton.setAttribute('aria-expanded', 'false');
+                 hamburgerIcon.classList.remove('hidden');
+                 closeIcon.classList.add('hidden');
+                 mobileMenu.style.maxHeight = "0";
+                 mobileMenu.classList.remove('py-2');
+            });
+        });
+    </script>
+
+</body>
+</html>
